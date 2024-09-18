@@ -3,14 +3,7 @@ import typescript from "typescript-eslint";
 
 import withNuxt from "./.nuxt/eslint.config.mjs";
 
-const COMPLEXITY = 10;
-const MAX_NESTED_CALLBACKS = 5;
-
-export default withNuxt({
-  linterOptions: {
-    noInlineConfig: true,
-  },
-})
+export default withNuxt()
   .override("nuxt/javascript", {
     rules: {
       "array-callback-return": "error",
@@ -22,16 +15,15 @@ export default withNuxt({
       "require-atomic-updates": "error",
       "accessor-pairs": "error",
       "arrow-body-style": "error",
-      complexity: ["error", COMPLEXITY],
+      complexity: ["error", 10],
       "consistent-return": "error",
       curly: "error",
       "default-case-last": "error",
       eqeqeq: "error",
-      "func-style": ["error", "declaration"],
       "grouped-accessor-pairs": "error",
       "logical-assignment-operators": "error",
       "max-depth": "error",
-      "max-nested-callbacks": ["error", MAX_NESTED_CALLBACKS],
+      "max-nested-callbacks": ["error", 5],
       "no-alert": "error",
       "new-cap": "error",
       "no-array-constructor": "error",
@@ -48,7 +40,6 @@ export default withNuxt({
       "no-invalid-this": "error",
       "no-lonely-if": "error",
       "no-lone-blocks": "error",
-      "no-magic-numbers": "error",
       "no-multi-assign": "error",
       "no-multi-str": "error",
       "no-negated-condition": "error",
@@ -110,16 +101,50 @@ export default withNuxt({
       "@typescript-eslint/return-await": "error",
       "@typescript-eslint/switch-exhaustiveness-check": "error",
       "@typescript-eslint/sort-type-constituents": "error",
+      "@typescript-eslint/method-signature-style": "error",
+      "no-unused-vars": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          args: "all",
+          argsIgnorePattern: "^_",
+          caughtErrors: "all",
+          caughtErrorsIgnorePattern: "^_",
+          destructuredArrayIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-misused-promises": [
+        "error",
+        {
+          checksVoidReturn: false,
+        },
+      ],
     },
   })
   .override("nuxt/vue/rules", {
     rules: {
       "vue/require-default-prop": "off",
+      "vue/multi-word-component-names": "off",
+      "vue/html-self-closing": [
+        "error",
+        {
+          html: {
+            void: "always",
+            normal: "always",
+            component: "always",
+          },
+          svg: "always",
+          math: "always",
+        },
+      ],
     },
   });
 
 function typescriptRecommendRules() {
   return [...typescript.configs.strictTypeChecked, ...typescript.configs.stylisticTypeChecked]
     .map((config) => config.rules)
-    .reduce((acc, rules) => ({ ...acc, ...rules }), {});
+    .reduce((accumulator, rules) => ({ ...accumulator, ...rules }), {});
 }

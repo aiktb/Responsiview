@@ -1,0 +1,5 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":semanticCommitTypeAll(chore)", ":pinDevDependencies"],
+  "ignoreDeps": ["@iconify-json/lucide", "@iconify-json/mdi", "@iconify-json/radix-icons"]
+}

@@ -10,15 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v3
         with:
           node-version-file: ".nvmrc"
           cache: "pnpm"
           cache-dependency-path: "pnpm-lock.yaml"
       - run: pnpm install --frozen-lockfile
-      # Generate nuxt types
-      - run: pnpm run build
-      - run: pnpm run format:check
-      - run: pnpm run lint
-      - run: pnpm run typecheck
+
+      - name: Generate nuxt types
+        run: pnpm run build
+
+      - name: Source code formatting check
+        run: pnpm run format:check
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Type Check
+        run: pnpm run typecheck
